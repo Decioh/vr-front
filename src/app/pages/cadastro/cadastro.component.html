@@ -1,0 +1,62 @@
+<header>
+    <div class="header-menu">
+        <ng-icon (click)="saveOrUpdateProduct()" class="save" name="featherSave"></ng-icon>
+        <ng-icon (click)="deleteProduct()" class="delete" name="heroTrashSolid"></ng-icon>
+    </div>
+    <h1>Cadastro de Produto</h1>
+    <div></div>
+</header>
+
+<main>
+    <div class="left-menu">
+        <form [formGroup]="productForm" class="search">
+            <div class="input">
+                Código
+                <input id="codigo" formControlName="codigo" type="text" />
+            </div>
+            <div class="input description">
+                Descrição
+                <input id="descricao" formControlName="descricao" type="text" />
+            </div>
+            <div class="input">
+                Custo
+                <input id="custo" formControlName="custo" type="text" />
+            </div>
+        </form>
+        <ul class="listHead list">
+            <li>
+                <div class="cell loja-cell">
+                    <ng-icon (click)="redirectToStoreEdit({
+                        loja: { id: 0, descricao: '' },
+                        precoVenda: '',
+                      });" class="icon-loja-cell" name="heroPlusCircle"></ng-icon>
+                    Loja
+                </div>
+                <div class="cell">
+                    Preço de Venda (R$)
+                </div>
+            </li>
+            <li *ngFor="let item of storeProducts">
+                <div class="cell loja-cell">
+                    {{item.loja.descricao}}
+                </div>
+                <div class="cell">
+                    {{formatPV(item.precoVenda)}}
+                    <div class="cell-menu">
+                        <ng-icon (click)="deleteStore(item)" class="delete" name="heroTrashSolid"></ng-icon>
+                        <ng-icon (click)="redirectToStoreEdit(item)" class="edit" name="heroPencilSolid"></ng-icon>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <ul class="list">
+        </ul>
+    </div>
+    <form [formGroup]="productForm" class="right-menu">
+        Imagem
+        <input id="imagem" name="imagem" formControlName="imagem" (change)="resolveFile($event)" type="file"
+            accept=".jpg, .png" />
+        <img [src]="product.imagem" />
+    </form>
+</main>
+<app-store-modal [store]="selectedStore"></app-store-modal>
